@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Pibbaweb – Gerador de Etiquetas 2026</title>
+<title>Pibbaweb - Gerador de Etiquetas 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -21,10 +21,46 @@ body{
   background:#f4f6f8;
 }
 
+/* HEADER */
 header{
+  position:sticky;
+  top:0;
+  z-index:1000;
   background:linear-gradient(90deg,var(--blue-dark),var(--blue-mid));
   color:#fff;
-  padding:20px;
+  padding:15px 20px;
+}
+
+.header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.socials{
+  display:flex;
+  gap:14px;
+}
+
+.socials a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  transition:background .3s;
+}
+
+.socials a:hover{
+  background:rgba(255,255,255,0.3);
+}
+
+.socials svg{
+  width:18px;
+  height:18px;
+  fill:#fff;
 }
 
 main{padding:20px}
@@ -102,7 +138,7 @@ main{padding:20px}
 .label img{
   width:100%;
   height:100%;
-  object-fit:cover; /* AJUSTE FINAL */
+  object-fit:cover;
 }
 
 .guide{
@@ -112,18 +148,6 @@ main{padding:20px}
   border:0.5mm dashed #aaa;
   border-radius:50%;
   pointer-events:none;
-}
-
-.mark{
-  position:absolute;
-  width:8mm;
-  height:0;
-  border-top:0.3mm solid #000;
-}
-.mark.v{
-  width:0;
-  height:8mm;
-  border-left:0.3mm solid #000;
 }
 
 .footer{
@@ -140,7 +164,24 @@ main{padding:20px}
 <body>
 
 <header>
-  <h2>Pibbaweb – Gerador de Etiquetas 2026</h2>
+  <div class="header-top">
+    <h2>Pibbaweb - Gerador de Etiquetas 2026</h2>
+
+    <div class="socials">
+      <a href="https://www.instagram.com/pibbaweb1/" target="_blank" title="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg>
+      </a>
+      <a href="https://www.youtube.com/user/pibbaweb" target="_blank" title="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23 7.5s-.2-1.7-.8-2.4c-.8-.8-1.7-.8-2.1-.9C16.9 4 12 4 12 4s-4.9 0-8.1.2c-.4.1-1.3.1-2.1.9C1.2 5.8 1 7.5 1 7.5S.8 9.4.8 11.2v1.6c0 1.8.2 3.7.2 3.7s.2 1.7.8 2.4c.8.8 1.9.8 2.4.9 1.7.2 7.8.2 7.8.2s4.9 0 8.1-.2c.4-.1 1.3-.1 2.1-.9.6-.7.8-2.4.8-2.4s.2-1.9.2-3.7v-1.6c0-1.8-.2-3.7-.2-3.7zM9.7 14.6V7.8l6.2 3.4-6.2 3.4z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/pibbaweb1" target="_blank" title="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2 .2 2 .2v2.3h-1.1c-1.1 0-1.4.7-1.4 1.4v1.7H16l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+      </a>
+      <a href="https://wa.me/5513988089754" target="_blank" title="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M20 3.9A11.8 11.8 0 0 0 3.2 18.7L2 22l3.4-1.1A11.8 11.8 0 1 0 20 3.9zm-8.2 16a9.6 9.6 0 0 1-4.9-1.4l-.3-.2-2.9.9.9-2.8-.2-.3a9.6 9.6 0 1 1 7.4 3.8zm5.3-7.2c-.3-.1-1.8-.9-2.1-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a7.9 7.9 0 0 1-2.3-1.4 8.5 8.5 0 0 1-1.6-2c-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.1-.3.2-.5.1-.2 0-.4 0-.5s-.7-1.7-1-2.3c-.3-.6-.6-.5-.7-.5h-.6c-.2 0-.5.1-.7.3s-.9.9-.9 2.1.9 2.4 1 2.5c.1.2 1.8 2.8 4.4 3.9.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.4s-.2-.2-.5-.3z"/></svg>
+      </a>
+    </div>
+  </div>
 </header>
 
 <main>
@@ -231,9 +272,7 @@ function buildPage(img,offset,guide){
 
   const footer=document.createElement('div');
   footer.className='footer';
-  footer.innerHTML=`
-  Instagram | YouTube | Facebook | WhatsApp | PIX: 13988089754
-  `;
+  footer.innerHTML=`Instagram | YouTube | Facebook | WhatsApp | PIX: 13988089754`;
 
   page.append(sheet,footer);
   return page;
@@ -253,18 +292,12 @@ function exportPDF(){
   const {jsPDF}=window.jspdf;
   const pdf=new jsPDF('p','mm','a4');
   const pages=document.querySelectorAll('.a4');
-
   let i=0;
+
   pages.forEach(p=>{
     html2canvas(p,{scale:3}).then(c=>{
       if(i>0)pdf.addPage();
       pdf.addImage(c.toDataURL('image/png'),'PNG',0,0,210,297);
-
-      pdf.link(30,285,30,5,{url:'https://www.instagram.com/pibbaweb1/'});
-      pdf.link(65,285,30,5,{url:'https://www.youtube.com/user/pibbaweb'});
-      pdf.link(100,285,30,5,{url:'https://www.facebook.com/pibbaweb1'});
-      pdf.link(135,285,30,5,{url:'https://wa.me/5513988089754'});
-
       i++;
       if(i===pages.length)pdf.save('Pibbaweb-Etiquetas-2026.pdf');
     });
