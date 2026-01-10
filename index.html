@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Pibbaweb – Gerador de Etiquetas 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root{
+  --blue-dark:#0d2a4d;
+  --blue-mid:#1f4e79;
+  --blue-light:#eaf2fb;
+}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f4f6f8;
+}
+
+header{
+  background:linear-gradient(90deg,var(--blue-dark),var(--blue-mid));
+  color:#fff;
+  padding:20px;
+}
+
+main{padding:20px}
+
+.container{
+  display:flex;
+  gap:20px;
+}
+
+.controls{
+  width:360px;
+  background:#fff;
+  padding:20px;
+  border-radius:8px;
+}
+
+.controls label{
+  margin-top:12px;
+  display:block;
+  font-weight:bold;
+  color:var(--blue-dark);
+}
+
+.controls input,
+.controls select{
+  width:100%;
+  padding:7px;
+  margin-top:4px;
+}
+
+.controls button{
+  margin-top:15px;
+  width:100%;
+  padding:10px;
+  background:var(--blue-mid);
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+
+.preview{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:25px;
+}
+
+.a4{
+  width:210mm;
+  height:297mm;
+  background:#fff;
+  position:relative;
+  box-shadow:0 0 10px rgba(0,0,0,.3);
+}
+
+.sheet{
+  position:absolute;
+  top:10mm;
+  left:10mm;
+  right:10mm;
+  bottom:22mm;
+  display:grid;
+  gap:1.5mm;
+  justify-content:center;
+  align-content:center;
+}
+
+.label{
+  border-radius:50%;
+  overflow:hidden;
+  position:relative;
+}
+
+.label img{
+  width:100%;
+  height:100%;
+  object-fit:cover; /* AJUSTE FINAL */
+}
+
+.guide{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border:0.5mm dashed #aaa;
+  border-radius:50%;
+  pointer-events:none;
+}
+
+.mark{
+  position:absolute;
+  width:8mm;
+  height:0;
+  border-top:0.3mm solid #000;
+}
+.mark.v{
+  width:0;
+  height:8mm;
+  border-left:0.3mm solid #000;
+}
+
+.footer{
+  position:absolute;
+  bottom:6mm;
+  left:10mm;
+  width:190mm;
+  font-size:9px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>Pibbaweb – Gerador de Etiquetas 2026</h2>
+</header>
+
+<main>
+<div class="container">
+
+<div class="controls">
+<label>Tamanho da Etiqueta (mm)</label>
+<select id="size">
+<option>25</option><option>30</option><option>35</option><option>40</option>
+<option>45</option><option>50</option><option>60</option><option>70</option>
+<option>80</option><option>90</option><option>100</option>
+<option>120</option><option>150</option>
+</select>
+
+<label>Tipo de Impressão</label>
+<select id="mode">
+<option value="front">Só Frente</option>
+<option value="both">Frente e Verso</option>
+</select>
+
+<label>Arquivo Frente</label>
+<input type="file" id="front" accept="image/*">
+
+<label id="backLabel" style="display:none">Arquivo Verso</label>
+<input type="file" id="back" accept="image/*" style="display:none">
+
+<label>Ajuste de Corte Frente (mm)</label>
+<input type="number" id="offsetFront" value="0">
+
+<label>Ajuste de Corte Verso (mm)</label>
+<input type="number" id="offsetBack" value="0">
+
+<button onclick="render()">Gerar Layout</button>
+<button onclick="exportPDF()">Exportar PDF A4</button>
+</div>
+
+<div class="preview" id="preview"></div>
+
+</div>
+</main>
+
+<script>
+const preview=document.getElementById('preview');
+const gap=1.5;
+
+mode.onchange=()=>{
+  back.style.display=backLabel.style.display=mode.value==='both'?'block':'none';
+};
+
+function loadImg(input){
+  return new Promise(r=>{
+    const f=new FileReader();
+    f.onload=e=>r(e.target.result);
+    f.readAsDataURL(input.files[0]);
+  });
+}
+
+function buildPage(img,offset,guide){
+  const base=+size.value;
+  const final=base+offset*2;
+  const cols=Math.floor((190+gap)/(final+gap));
+  const rows=Math.floor((257+gap)/(final+gap));
+
+  const page=document.createElement('div');
+  page.className='a4';
+
+  const sheet=document.createElement('div');
+  sheet.className='sheet';
+  sheet.style.gridTemplateColumns=`repeat(${cols},${final}mm)`;
+
+  for(let i=0;i<cols*rows;i++){
+    const l=document.createElement('div');
+    l.className='label';
+    l.style.width=l.style.height=final+'mm';
+
+    const im=document.createElement('img');
+    im.src=img;
+    l.appendChild(im);
+
+    if(guide){
+      const g=document.createElement('div');
+      g.className='guide';
+      l.appendChild(g);
+    }
+
+    sheet.appendChild(l);
+  }
+
+  const footer=document.createElement('div');
+  footer.className='footer';
+  footer.innerHTML=`
+  Instagram | YouTube | Facebook | WhatsApp | PIX: 13988089754
+  `;
+
+  page.append(sheet,footer);
+  return page;
+}
+
+async function render(){
+  preview.innerHTML='';
+  const f=await loadImg(front);
+  preview.appendChild(buildPage(f,+offsetFront.value,true));
+  if(mode.value==='both'){
+    const b=await loadImg(back);
+    preview.appendChild(buildPage(b,+offsetBack.value,false));
+  }
+}
+
+function exportPDF(){
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF('p','mm','a4');
+  const pages=document.querySelectorAll('.a4');
+
+  let i=0;
+  pages.forEach(p=>{
+    html2canvas(p,{scale:3}).then(c=>{
+      if(i>0)pdf.addPage();
+      pdf.addImage(c.toDataURL('image/png'),'PNG',0,0,210,297);
+
+      pdf.link(30,285,30,5,{url:'https://www.instagram.com/pibbaweb1/'});
+      pdf.link(65,285,30,5,{url:'https://www.youtube.com/user/pibbaweb'});
+      pdf.link(100,285,30,5,{url:'https://www.facebook.com/pibbaweb1'});
+      pdf.link(135,285,30,5,{url:'https://wa.me/5513988089754'});
+
+      i++;
+      if(i===pages.length)pdf.save('Pibbaweb-Etiquetas-2026.pdf');
+    });
+  });
+}
+</script>
+
+</body>
+</html>
