@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Pibbaweb · Etiquetas com Margem Interna e Fundo Transparente/Branco</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --blue-dark: #0a2a44;
+    --blue-mid: #1e5a88;
+    --accent: #ffb347;
+    --gray-bg: #f0f4f9;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--gray-bg);
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, var(--blue-dark), #103a60);
+    padding: 12px 28px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  header h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(120deg, #fff, #ffdd99);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .socials {
+    display: flex;
+    gap: 12px;
+  }
+
+  .socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    transition: 0.2s;
+  }
+
+  .socials a:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .socials svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+  }
+
+  main {
+    padding: 28px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .container {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .controls {
+    width: 380px;
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    border: 1px solid #e2edf7;
+  }
+
+  .controls label {
+    margin-top: 18px;
+    display: block;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--blue-dark);
+  }
+
+  .controls input, .controls select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 6px;
+    border: 1px solid #cbdde9;
+    border-radius: 14px;
+    font-size: 0.9rem;
+  }
+
+  .radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+    align-items: center;
+  }
+  .radio-group label {
+    margin-top: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal;
+  }
+  .radio-group input {
+    width: auto;
+    margin-top: 0;
+  }
+
+  .controls button {
+    margin-top: 24px;
+    width: 100%;
+    padding: 12px;
+    background: var(--blue-mid);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .controls button:hover {
+    background: #0f4a6e;
+    transform: scale(0.98);
+  }
+
+  .btn-secondary {
+    background: #2c3e50;
+    margin-top: 12px;
+  }
+
+  .info-badge {
+    background: #eef2ff;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    text-align: center;
+    margin-top: 20px;
+    color: #1e4663;
+  }
+
+  .preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 28px;
+    overflow-x: auto;
+  }
+
+  .a4 {
+    width: 210mm;
+    height: 297mm;
+    background: white;
+    position: relative;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    border-radius: 4px;
+  }
+
+  .sheet {
+    position: absolute;
+    top: 10mm;
+    left: 10mm;
+    right: 10mm;
+    bottom: 22mm;
+    display: grid;
+    gap: 1.5mm;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .label-outer {
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .label-inner {
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .label-inner img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  .guide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0.5mm dashed rgba(0,0,0,0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 6mm;
+    left: 10mm;
+    width: 190mm;
+    font-size: 8px;
+    text-align: center;
+    color: #3a6b92;
+    background: rgba(255,255,240,0.8);
+    padding: 3px;
+    border-radius: 30px;
+  }
+
+  @media (max-width: 860px) {
+    .container { flex-direction: column; }
+    .controls { width: 100%; }
+    .preview { align-items: center; }
+    .a4 { transform: scale(0.92); transform-origin: top center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <h2>✨ Pibbaweb · Etiquetas com Margem + Fundo Transparente/Branco</h2>
+    <div class="socials">
+      <a href="https://www.instagram.com/pibbaweb1/" target="_blank"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+      <a href="https://www.youtube.com/user/pibbaweb" target="_blank"><svg viewBox="0 0 24 24"><path d="M23 7.5s-.2-1.7-.8-2.4c-.8-.8-1.7-.8-2.1-.9C16.9 4 12 4 12 4s-4.9 0-8.1.2c-.4.1-1.3.1-2.1.9C1.2 5.8 1 7.5 1 7.5S.8 9.4.8 11.2v1.6c0 1.8.2 3.7.2 3.7s.2 1.7.8 2.4c.8.8 1.9.8 2.4.9 1.7.2 7.8.2 7.8.2s4.9 0 8.1-.2c.4-.1 1.3-.1 2.1-.9.6-.7.8-2.4.8-2.4s.2-1.9.2-3.7v-1.6c0-1.8-.2-3.7-.2-3.7zM9.7 14.6V7.8l6.2 3.4-6.2 3.4z"/></svg></a>
+      <a href="https://www.facebook.com/pibbaweb1" target="_blank"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2 .2 2 .2v2.3h-1.1c-1.1 0-1.4.7-1.4 1.4v1.7H16l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></a>
+      <a href="https://wa.me/5513988089754" target="_blank"><svg viewBox="0 0 24 24"><path d="M20 3.9A11.8 11.8 0 0 0 3.2 18.7L2 22l3.4-1.1A11.8 11.8 0 1 0 20 3.9zm-8.2 16a9.6 9.6 0 0 1-4.9-1.4l-.3-.2-2.9.9.9-2.8-.2-.3a9.6 9.6 0 1 1 7.4 3.8zm5.3-7.2c-.3-.1-1.8-.9-2.1-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a7.9 7.9 0 0 1-2.3-1.4 8.5 8.5 0 0 1-1.6-2c-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.1-.3.2-.5.1-.2 0-.4 0-.5s-.7-1.7-1-2.3c-.3-.6-.6-.5-.7-.5h-.6c-.2 0-.5.1-.7.3s-.9.9-.9 2.1.9 2.4 1 2.5c.1.2 1.8 2.8 4.4 3.9.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.4s-.2-.2-.5-.3z"/></svg></a>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+  <div class="controls">
+    <label>📏 Tamanho da Etiqueta (mm)</label>
+    <select id="size">
+      <option>25</option><option>30</option><option>35</option><option>40</option><option>45</option>
+      <option>50</option><option>60</option><option>70</option><option>80</option><option>90</option>
+      <option>100</option><option>120</option><option>150</option>
+    </select>
+
+    <label>🔒 Margem interna de segurança (mm) → arte NUNCA será cortada</label>
+    <input type="number" id="internalMargin" value="2" step="0.5" min="0" max="10">
+    <div style="font-size:11px; color:#555;">Ex: 40mm com margem 2mm → imagem dentro de 38mm, totalmente visível.</div>
+
+    <label>🎨 Fundo da área da margem (borda externa)</label>
+    <div class="radio-group">
+      <label><input type="radio" name="bgType" value="transparent" checked> Transparente (sem fundo)</label>
+      <label><input type="radio" name="bgType" value="solid"> Cor sólida</label>
+    </div>
+    <input type="color" id="solidColor" value="#ffffff" style="margin-top: 6px;">
+
+    <label>🖨️ Tipo de Impressão</label>
+    <select id="mode">
+      <option value="front">Somente Frente</option>
+      <option value="both" selected>Frente + Verso</option>
+    </select>
+
+    <label>🖼️ Imagem FRENTE (qualquer formato: quadrada, retangular, oval)</label>
+    <input type="file" id="front" accept="image/jpeg,image/png,image/webp">
+
+    <label id="backLabel" style="display:none">🖼️ Imagem VERSO</label>
+    <input type="file" id="back" accept="image/*" style="display:none">
+
+    <label>✂️ Ajuste extra de Corte / Deslocamento (mm)</label>
+    <input type="number" id="offsetFront" value="0" step="0.5" placeholder="Expande ou reduz o círculo externo">
+    <input type="number" id="offsetBack" value="0" step="0.5" placeholder="Ajuste para o verso" style="margin-top:6px;">
+
+    <div class="info-badge" id="statsInfo">
+      ✅ Imagem 100% visível · Margem ajustável · Fundo transparente ou branco
+    </div>
+    
+    <button id="generateBtn">✨ Gerar Layout</button>
+    <button id="exportBtn" class="btn-secondary">📄 Exportar PDF (exato à tela)</button>
+  </div>
+
+  <div class="preview" id="preview"></div>
+</div>
+</main>
+
+<script>
+  // Elementos DOM
+  const sizeSelect = document.getElementById('size');
+  const modeSelect = document.getElementById('mode');
+  const frontInput = document.getElementById('front');
+  const backInput = document.getElementById('back');
+  const offsetFrontInput = document.getElementById('offsetFront');
+  const offsetBackInput = document.getElementById('offsetBack');
+  const internalMarginInput = document.getElementById('internalMargin');
+  const solidColorInput = document.getElementById('solidColor');
+  const bgTypeRadios = document.querySelectorAll('input[name="bgType"]');
+  const generateBtn = document.getElementById('generateBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const previewDiv = document.getElementById('preview');
+  const statsSpan = document.getElementById('statsInfo');
+
+  let frontImageData = null;
+  let backImageData = null;
+
+  // Constantes da folha A4
+  const LEFT_RIGHT_MARGIN_MM = 10;
+  const TOP_MARGIN_MM = 10;
+  const BOTTOM_MARGIN_MM = 22;
+  const GAP_MM = 1.5;
+  const PAGE_W = 210;
+  const PAGE_H = 297;
+  const USABLE_W = PAGE_W - (LEFT_RIGHT_MARGIN_MM * 2);
+  const USABLE_H = PAGE_H - TOP_MARGIN_MM - BOTTOM_MARGIN_MM;
+
+  function toggleBackFields() {
+    const isBoth = modeSelect.value === 'both';
+    document.getElementById('backLabel').style.display = isBoth ? 'block' : 'none';
+    backInput.style.display = isBoth ? 'block' : 'none';
+  }
+
+  function getBackgroundColor() {
+    const isTransparent = document.querySelector('input[name="bgType"]:checked').value === 'transparent';
+    if (isTransparent) return 'transparent';
+    return solidColorInput.value;
+  }
+
+  function loadImageFromInput(inputElem) {
+    return new Promise((resolve, reject) => {
+      if (!inputElem.files || !inputElem.files[0]) { resolve(null); return; }
+      const file = inputElem.files[0];
+      if (!file.type.startsWith('image/')) reject('Formato inválido');
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result);
+      reader.onerror = () => reject('Erro leitura');
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function getGridDimensions(finalOuterDiameterMM) {
+    const cols = Math.floor((USABLE_W + GAP_MM) / (finalOuterDiameterMM + GAP_MM));
+    const rows = Math.floor((USABLE_H + GAP_MM) / (finalOuterDiameterMM + GAP_MM));
+    return { cols, rows };
+  }
+
+  // Constrói página com margem interna e fundo personalizável (transparente ou cor sólida)
+  function buildPageWithMargin(imageUrl, offsetMM, showGuide, marginMM, bgColorStyle) {
+    if (!imageUrl) return null;
+
+    const baseSize = parseFloat(sizeSelect.value);
+    if (isNaN(baseSize)) return null;
+    const offset = parseFloat(offsetMM) || 0;
+    const finalOuterDiameter = Math.max(5, baseSize + (offset * 2));
+    let innerDiameter = finalOuterDiameter - marginMM;
+    if (innerDiameter < 2) innerDiameter = finalOuterDiameter;
+
+    const { cols, rows } = getGridDimensions(finalOuterDiameter);
+    if (cols === 0 || rows === 0) {
+      statsSpan.innerHTML = '⚠️ Tamanho muito grande para a folha, reduza o diâmetro.';
+      return null;
+    }
+
+    const totalLabels = cols * rows;
+    statsSpan.innerHTML = `📐 Etiqueta externa: ${finalOuterDiameter.toFixed(1)}mm | Área da imagem: ${innerDiameter.toFixed(1)}mm | Grade: ${cols}×${rows} = ${totalLabels} etiquetas/página. Fundo: ${bgColorStyle === 'transparent' ? 'Transparente' : 'Sólido'}.`;
+
+    const page = document.createElement('div');
+    page.className = 'a4';
+    const sheet = document.createElement('div');
+    sheet.className = 'sheet';
+    sheet.style.gridTemplateColumns = `repeat(${cols}, ${finalOuterDiameter}mm)`;
+    sheet.style.gap = `${GAP_MM}mm`;
+    sheet.style.justifyContent = 'center';
+    sheet.style.alignContent = 'center';
+
+    for (let i = 0; i < totalLabels; i++) {
+      // Camada externa (define o fundo da borda/margem)
+      const outer = document.createElement('div');
+      outer.className = 'label-outer';
+      outer.style.width = `${finalOuterDiameter}mm`;
+      outer.style.height = `${finalOuterDiameter}mm`;
+      outer.style.backgroundColor = bgColorStyle;
+      outer.style.display = 'flex';
+      outer.style.alignItems = 'center';
+      outer.style.justifyContent = 'center';
+      outer.style.position = 'relative';
+
+      // Camada interna (onde a imagem fica contida)
+      const inner = document.createElement('div');
+      inner.className = 'label-inner';
+      inner.style.width = `${innerDiameter}mm`;
+      inner.style.height = `${innerDiameter}mm`;
+      inner.style.borderRadius = '50%';
+      inner.style.overflow = 'hidden';
+      inner.style.display = 'flex';
+      inner.style.alignItems = 'center';
+      inner.style.justifyContent = 'center';
+      inner.style.backgroundColor = 'transparent'; // sempre transparente para não interferir
+
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = '100%';
+      img.style.width = 'auto';
+      img.style.height = 'auto';
+      img.style.objectFit = 'contain';
+      img.style.display = 'block';
+
+      inner.appendChild(img);
+      outer.appendChild(inner);
+
+      if (showGuide) {
+        const guide = document.createElement('div');
+        guide.className = 'guide';
+        outer.appendChild(guide);
+      }
+
+      sheet.appendChild(outer);
+    }
+
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+    footer.innerHTML = `📌 Pibbaweb · Instagram | YouTube | Facebook | WhatsApp | PIX: 13988089754 | Margem: ${marginMM}mm | Fundo: ${bgColorStyle === 'transparent' ? 'transparente' : 'colorido'}`;
+    page.appendChild(sheet);
+    page.appendChild(footer);
+    return page;
+  }
+
+  async function renderFullLayout() {
+    if (!frontImageData && frontInput.files.length === 0) {
+      statsSpan.innerHTML = '⚠️ Selecione uma imagem de FRENTE primeiro.';
+      return;
+    }
+
+    if (frontInput.files.length > 0) {
+      frontImageData = await loadImageFromInput(frontInput);
+    }
+    if (modeSelect.value === 'both' && backInput.files.length > 0) {
+      backImageData = await loadImageFromInput(backInput);
+    }
+
+    if (!frontImageData) {
+      statsSpan.innerHTML = '❌ Nenhuma imagem de frente carregada.';
+      return;
+    }
+
+    const margin = parseFloat(internalMarginInput.value) || 0;
+    const bgColor = getBackgroundColor();
+    const offsetFront = offsetFrontInput.value;
+    const offsetBack = offsetBackInput.value;
+
+    previewDiv.innerHTML = '';
+
+    // Página frente
+    const frontPage = buildPageWithMargin(frontImageData, offsetFront, true, margin, bgColor);
+    if (frontPage) previewDiv.appendChild(frontPage);
+
+    // Página verso
+    if (modeSelect.value === 'both' && backImageData) {
+      const backPage = buildPageWithMargin(backImageData, offsetBack, false, margin, bgColor);
+      if (backPage) previewDiv.appendChild(backPage);
+    } else if (modeSelect.value === 'both' && !backImageData) {
+      statsSpan.innerHTML += ' | ℹ️ Verso não selecionado, exibindo apenas frente.';
+    }
+
+    if (previewDiv.children.length === 0) {
+      statsSpan.innerHTML = '❌ Erro ao gerar páginas. Verifique o tamanho da etiqueta.';
+    } else {
+      statsSpan.innerHTML = `✅ ${previewDiv.children.length} folha(s) A4 gerada(s) com margem de ${margin}mm. Nenhum corte na imagem.`;
+    }
+  }
+
+  async function exportToPDF() {
+    const pages = document.querySelectorAll('.a4');
+    if (pages.length === 0) {
+      alert('Nenhuma etiqueta gerada. Clique em "Gerar Layout" primeiro.');
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    let isFirst = true;
+
+    exportBtn.innerHTML = '⏳ Exportando PDF...';
+    exportBtn.disabled = true;
+
+    try {
+      for (let idx = 0; idx < pages.length; idx++) {
+        const pageElem = pages[idx];
+        pageElem.style.transform = 'none';
+        const canvas = await html2canvas(pageElem, {
+          scale: 3.5,
+          backgroundColor: '#ffffff',
+          logging: false,
+          useCORS: true,
+          allowTaint: false
+        });
+        const imgData = canvas.toDataURL('image/png');
+        if (!isFirst) pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
+        isFirst = false;
+      }
+      pdf.save(`Pibbaweb_Etiquetas_Margem_${internalMarginInput.value}mm.pdf`);
+      statsSpan.innerHTML = `📁 PDF salvo exatamente como visualizado na tela. Arte 100% visível, fundo ${getBackgroundColor() === 'transparent' ? 'transparente' : 'sólido'}.`;
+    } catch (err) {
+      alert('Erro ao gerar PDF: ' + err.message);
+    } finally {
+      exportBtn.innerHTML = '📄 Exportar PDF (exato à tela)';
+      exportBtn.disabled = false;
+    }
+  }
+
+  // Eventos automáticos com debounce
+  let debounceTimer;
+  function autoRender() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      if (frontImageData || frontInput.files.length > 0) {
+        renderFullLayout();
+      } else {
+        statsSpan.innerHTML = '📸 Carregue uma imagem de frente. A margem interna evita cortes.';
+      }
+    }, 300);
+  }
+
+  sizeSelect.addEventListener('change', autoRender);
+  modeSelect.addEventListener('change', () => { toggleBackFields(); autoRender(); });
+  internalMarginInput.addEventListener('input', autoRender);
+  solidColorInput.addEventListener('input', autoRender);
+  bgTypeRadios.forEach(radio => radio.addEventListener('change', autoRender));
+  offsetFrontInput.addEventListener('input', autoRender);
+  offsetBackInput.addEventListener('input', autoRender);
+  frontInput.addEventListener('change', async () => {
+    if (frontInput.files.length) frontImageData = await loadImageFromInput(frontInput);
+    autoRender();
+  });
+  backInput.addEventListener('change', async () => {
+    if (backInput.files.length) backImageData = await loadImageFromInput(backInput);
+    autoRender();
+  });
+
+  generateBtn.addEventListener('click', async () => {
+    if (frontInput.files.length) frontImageData = await loadImageFromInput(frontInput);
+    if (modeSelect.value === 'both' && backInput.files.length) backImageData = await loadImageFromInput(backInput);
+    renderFullLayout();
+  });
+  exportBtn.addEventListener('click', exportToPDF);
+
+  // Inicialização
+  toggleBackFields();
+  previewDiv.innerHTML = `<div style="background:#eef2ff; padding:40px; border-radius:24px; text-align:center; width:100%;">
+    ✨ <strong>Modo Profissional ativado</strong><br>
+    • Imagem sempre visível por completo (sem cortes)<br>
+    • Margem interna ajustável (2mm padrão)<br>
+    • Fundo da borda: transparente ou cor sólida<br>
+    • Exportação PDF fiel à tela
+  </div>`;
+</script>
+</body>
+</html>
