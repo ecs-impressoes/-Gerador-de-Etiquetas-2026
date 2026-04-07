@@ -2,47 +2,41 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Pibbaweb - Gerador Profissional de Etiquetas Circulares 2026</title>
+<title>Pibbaweb - Etiquetas Circulares com Sangria | 2026</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-<!-- Bibliotecas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 :root {
   --blue-dark: #0a2a44;
   --blue-mid: #1e5a88;
-  --blue-light: #eef4fc;
-  --accent-gold: #ffb347;
-  --gray-light: #f8fafc;
-  --shadow-sm: 0 8px 20px rgba(0,0,0,0.08);
-  --radius-md: 16px;
+  --accent: #ffb347;
+  --gray-bg: #f1f5f9;
+  --card-radius: 20px;
 }
 
 body {
-  margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: #f1f5f9;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--gray-bg);
 }
 
-/* Importar fonte elegante */
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
 
-/* HEADER moderno */
+/* HEADER */
 header {
   position: sticky;
   top: 0;
   z-index: 100;
   background: linear-gradient(135deg, var(--blue-dark), #103a60);
-  backdrop-filter: blur(2px);
+  padding: 12px 28px;
   color: white;
-  padding: 12px 24px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .header-top {
@@ -54,15 +48,13 @@ header {
 }
 
 header h2 {
-  margin: 0;
+  font-size: 1.5rem;
   font-weight: 700;
-  font-size: 1.4rem;
-  letter-spacing: -0.3px;
   background: linear-gradient(120deg, #fff, #ffdd99);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  text-shadow: none;
+  letter-spacing: -0.3px;
 }
 
 .socials {
@@ -78,11 +70,11 @@ header h2 {
   height: 36px;
   border-radius: 50%;
   background: rgba(255,255,255,0.12);
-  transition: all 0.25s ease;
+  transition: all 0.2s;
 }
 
 .socials a:hover {
-  background: var(--accent-gold);
+  background: var(--accent);
   transform: translateY(-2px);
 }
 
@@ -104,15 +96,14 @@ main {
   flex-wrap: wrap;
 }
 
-/* PAINEL DE CONTROLE - elegante */
+/* CONTROLES */
 .controls {
-  width: 360px;
+  width: 380px;
   background: white;
-  border-radius: var(--radius-md);
+  border-radius: var(--card-radius);
   padding: 24px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
   border: 1px solid #e2edf7;
-  transition: all 0.2s;
 }
 
 .controls label {
@@ -121,23 +112,20 @@ main {
   font-weight: 600;
   font-size: 0.85rem;
   color: var(--blue-dark);
-  letter-spacing: -0.2px;
 }
 
-.controls input, 
-.controls select {
+.controls input, .controls select {
   width: 100%;
   padding: 10px 12px;
   margin-top: 6px;
   border: 1px solid #cbdde9;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 0.9rem;
   background: white;
   transition: 0.2s;
 }
 
-.controls input:focus, 
-.controls select:focus {
+.controls input:focus, .controls select:focus {
   border-color: var(--blue-mid);
   outline: none;
   box-shadow: 0 0 0 3px rgba(30,90,136,0.2);
@@ -155,7 +143,6 @@ main {
   font-size: 0.9rem;
   cursor: pointer;
   transition: 0.2s;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .controls button:hover {
@@ -163,13 +150,9 @@ main {
   transform: scale(0.98);
 }
 
-.controls .btn-secondary {
+.btn-secondary {
   background: #2c3e50;
   margin-top: 12px;
-}
-
-.controls .btn-secondary:hover {
-  background: #1e2f3c;
 }
 
 .info-badge {
@@ -192,16 +175,14 @@ main {
   overflow-x: auto;
 }
 
-/* Folha A4 realística */
+/* Folha A4 realista */
 .a4 {
   width: 210mm;
   height: 297mm;
   background: white;
   position: relative;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
   border-radius: 4px;
-  transition: all 0.2s;
-  margin-bottom: 12px;
 }
 
 .sheet {
@@ -216,38 +197,39 @@ main {
   align-content: center;
 }
 
-/* círculo perfeito */
+/* círculo com overflow hidden e imagem com sangria */
 .label {
   border-radius: 50%;
   overflow: hidden;
   position: relative;
   background: #f0f0f0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  transition: transform 0.1s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
 .label img {
-  width: 100%;
-  height: 100%;
-  display: block;
   position: absolute;
-  top: 0;
-  left: 0;
-  transition: all 0.2s;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  /* A sangria será aplicada dinamicamente via escala extra */
 }
 
-/* guia de corte (tracejado) */
 .guide {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  border: 0.6mm dashed rgba(0,0,0,0.25);
+  border: 0.5mm dashed rgba(0,0,0,0.35);
   border-radius: 50%;
   pointer-events: none;
-  box-sizing: border-box;
   z-index: 2;
+  box-sizing: border-box;
 }
 
 .footer {
@@ -259,16 +241,15 @@ main {
   text-align: center;
   color: #3a6b92;
   font-weight: 500;
-  background: rgba(255,255,240,0.7);
+  background: rgba(255,255,240,0.8);
   padding: 3px 0;
-  border-radius: 20px;
-  letter-spacing: 0.3px;
+  border-radius: 30px;
 }
 
-.loading-indicator {
+.loading {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border: 2px solid #ccc;
   border-top-color: var(--blue-mid);
   border-radius: 50%;
@@ -279,12 +260,11 @@ main {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* responsivo */
 @media (max-width: 860px) {
   .container { flex-direction: column; }
   .controls { width: 100%; }
   .preview { align-items: center; }
-  .a4 { transform: scale(0.95); transform-origin: top center; }
+  .a4 { transform: scale(0.92); transform-origin: top center; }
 }
 </style>
 </head>
@@ -292,12 +272,12 @@ main {
 
 <header>
   <div class="header-top">
-    <h2>⚡ Pibbaweb · Etiquetas Circulares 2026</h2>
+    <h2>⚡ Pibbaweb · Etiquetas Circulares com Sangria 2mm</h2>
     <div class="socials">
-      <a href="https://www.instagram.com/pibbaweb1/" target="_blank" title="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
-      <a href="https://www.youtube.com/user/pibbaweb" target="_blank" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23 7.5s-.2-1.7-.8-2.4c-.8-.8-1.7-.8-2.1-.9C16.9 4 12 4 12 4s-4.9 0-8.1.2c-.4.1-1.3.1-2.1.9C1.2 5.8 1 7.5 1 7.5S.8 9.4.8 11.2v1.6c0 1.8.2 3.7.2 3.7s.2 1.7.8 2.4c.8.8 1.9.8 2.4.9 1.7.2 7.8.2 7.8.2s4.9 0 8.1-.2c.4-.1 1.3-.1 2.1-.9.6-.7.8-2.4.8-2.4s.2-1.9.2-3.7v-1.6c0-1.8-.2-3.7-.2-3.7zM9.7 14.6V7.8l6.2 3.4-6.2 3.4z"/></svg></a>
-      <a href="https://www.facebook.com/pibbaweb1" target="_blank" title="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2 .2 2 .2v2.3h-1.1c-1.1 0-1.4.7-1.4 1.4v1.7H16l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></a>
-      <a href="https://wa.me/5513988089754" target="_blank" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M20 3.9A11.8 11.8 0 0 0 3.2 18.7L2 22l3.4-1.1A11.8 11.8 0 1 0 20 3.9zm-8.2 16a9.6 9.6 0 0 1-4.9-1.4l-.3-.2-2.9.9.9-2.8-.2-.3a9.6 9.6 0 1 1 7.4 3.8zm5.3-7.2c-.3-.1-1.8-.9-2.1-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a7.9 7.9 0 0 1-2.3-1.4 8.5 8.5 0 0 1-1.6-2c-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.1-.3.2-.5.1-.2 0-.4 0-.5s-.7-1.7-1-2.3c-.3-.6-.6-.5-.7-.5h-.6c-.2 0-.5.1-.7.3s-.9.9-.9 2.1.9 2.4 1 2.5c.1.2 1.8 2.8 4.4 3.9.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.4s-.2-.2-.5-.3z"/></svg></a>
+      <a href="https://www.instagram.com/pibbaweb1/" target="_blank"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+      <a href="https://www.youtube.com/user/pibbaweb" target="_blank"><svg viewBox="0 0 24 24"><path d="M23 7.5s-.2-1.7-.8-2.4c-.8-.8-1.7-.8-2.1-.9C16.9 4 12 4 12 4s-4.9 0-8.1.2c-.4.1-1.3.1-2.1.9C1.2 5.8 1 7.5 1 7.5S.8 9.4.8 11.2v1.6c0 1.8.2 3.7.2 3.7s.2 1.7.8 2.4c.8.8 1.9.8 2.4.9 1.7.2 7.8.2 7.8.2s4.9 0 8.1-.2c.4-.1 1.3-.1 2.1-.9.6-.7.8-2.4.8-2.4s.2-1.9.2-3.7v-1.6c0-1.8-.2-3.7-.2-3.7zM9.7 14.6V7.8l6.2 3.4-6.2 3.4z"/></svg></a>
+      <a href="https://www.facebook.com/pibbaweb1" target="_blank"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2 .2 2 .2v2.3h-1.1c-1.1 0-1.4.7-1.4 1.4v1.7H16l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></a>
+      <a href="https://wa.me/5513988089754" target="_blank"><svg viewBox="0 0 24 24"><path d="M20 3.9A11.8 11.8 0 0 0 3.2 18.7L2 22l3.4-1.1A11.8 11.8 0 1 0 20 3.9zm-8.2 16a9.6 9.6 0 0 1-4.9-1.4l-.3-.2-2.9.9.9-2.8-.2-.3a9.6 9.6 0 1 1 7.4 3.8zm5.3-7.2c-.3-.1-1.8-.9-2.1-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a7.9 7.9 0 0 1-2.3-1.4 8.5 8.5 0 0 1-1.6-2c-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.1-.3.2-.5.1-.2 0-.4 0-.5s-.7-1.7-1-2.3c-.3-.6-.6-.5-.7-.5h-.6c-.2 0-.5.1-.7.3s-.9.9-.9 2.1.9 2.4 1 2.5c.1.2 1.8 2.8 4.4 3.9.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.4s-.2-.2-.5-.3z"/></svg></a>
     </div>
   </div>
 </header>
@@ -306,12 +286,16 @@ main {
 <div class="container">
 
 <div class="controls">
-  <label>📏 Tamanho do Círculo (mm)</label>
+  <label>📏 Diâmetro do Círculo (mm)</label>
   <select id="size">
     <option>25</option><option>30</option><option>35</option><option>40</option><option>45</option>
     <option>50</option><option>60</option><option>70</option><option>80</option><option>90</option>
     <option>100</option><option>120</option><option>150</option>
   </select>
+
+  <label>✂️ Sangria da Arte (mm) → imagem ultrapassa o corte</label>
+  <input type="number" id="bleed" value="2" step="0.5" min="0" max="10">
+  <div style="font-size:11px; color:#555; margin-top:4px;">A imagem ficará 2mm maior que o círculo para evitar bordas brancas no corte.</div>
 
   <label>🖨️ Tipo de Impressão</label>
   <select id="mode">
@@ -319,33 +303,31 @@ main {
     <option value="both" selected>Frente + Verso</option>
   </select>
 
-  <label>🎨 Modo de Ajuste da Imagem (no círculo)</label>
+  <label>🎨 Ajuste da Imagem (dentro do círculo)</label>
   <select id="fitMode">
-    <option value="cover">Preencher totalmente (Cobrir / Crop inteligente)</option>
-    <option value="contain">Mostrar inteira (com fundo / letterbox)</option>
+    <option value="cover">Preencher totalmente (crop automático)</option>
+    <option value="contain">Mostrar inteira (com fundo)</option>
   </select>
 
-  <label id="bgColorLabel" style="display: none;">🎨 Cor de fundo (para modo "Mostrar inteira")</label>
+  <label id="bgColorLabel" style="display: none;">🎨 Cor de fundo (modo "Mostrar inteira")</label>
   <input type="color" id="bgColor" value="#ffffff" style="display: none;">
 
-  <label>🖼️ Imagem FRENTE</label>
-  <input type="file" id="front" accept="image/jpeg,image/png,image/webp,image/bmp">
+  <label>🖼️ Imagem FRENTE (com sangria integrada)</label>
+  <input type="file" id="front" accept="image/jpeg,image/png,image/webp">
 
   <label id="backLabel" style="display:none">🖼️ Imagem VERSO</label>
   <input type="file" id="back" accept="image/*" style="display:none">
 
-  <label>✂️ Ajuste de Corte / Sangria FRENTE (mm)</label>
-  <input type="number" id="offsetFront" value="0" step="0.5" placeholder="Ex: +1 ou -0.5">
-
-  <label>✂️ Ajuste de Corte / Sangria VERSO (mm)</label>
-  <input type="number" id="offsetBack" value="0" step="0.5">
+  <label>🔧 Ajuste de Corte / Deslocamento (mm)</label>
+  <input type="number" id="offsetFront" value="0" step="0.5" placeholder="Expansão do círculo">
+  <input type="number" id="offsetBack" value="0" step="0.5" placeholder="Ajuste verso" style="margin-top:6px;">
 
   <div class="info-badge" id="statsInfo">
-    ⚙️ Pronto para gerar layout
+    ✅ Pronto para gerar etiquetas com sangria profissional
   </div>
   
-  <button id="generateBtn">✨ Gerar Layout Agora</button>
-  <button id="exportBtn" class="btn-secondary">📄 Exportar PDF (A4)</button>
+  <button id="generateBtn">✨ Gerar Layout (exato para tela)</button>
+  <button id="exportBtn" class="btn-secondary">📄 Exportar PDF → Fiel à tela</button>
 </div>
 
 <div class="preview" id="preview"></div>
@@ -354,13 +336,14 @@ main {
 </main>
 
 <script>
-// ---------- DOM elements ----------
+// Elementos DOM
 const sizeSelect = document.getElementById('size');
 const modeSelect = document.getElementById('mode');
 const frontInput = document.getElementById('front');
 const backInput = document.getElementById('back');
-const offsetFrontInput = document.getElementById('offsetFront');
-const offsetBackInput = document.getElementById('offsetBack');
+const offsetFront = document.getElementById('offsetFront');
+const offsetBack = document.getElementById('offsetBack');
+const bleedInput = document.getElementById('bleed');
 const fitModeSelect = document.getElementById('fitMode');
 const bgColorInput = document.getElementById('bgColor');
 const bgColorLabel = document.getElementById('bgColorLabel');
@@ -369,101 +352,82 @@ const exportBtn = document.getElementById('exportBtn');
 const previewDiv = document.getElementById('preview');
 const statsSpan = document.getElementById('statsInfo');
 
-// Dados das imagens (base64)
 let frontImageData = null;
 let backImageData = null;
 
-// Configurações fixas
-const GAP_MM = 1.5;        // espaçamento entre etiquetas
-const TOP_MARGIN = 10;      // mm
-const BOTTOM_MARGIN_SHEET = 22; // espaço para footer
-const LEFT_RIGHT_MARGIN = 10;    // mm
-const PAGE_WIDTH_MM = 210;
-const PAGE_HEIGHT_MM = 297;
-const USABLE_WIDTH_MM = PAGE_WIDTH_MM - (LEFT_RIGHT_MARGIN * 2); // 190mm
-const USABLE_HEIGHT_MM = PAGE_HEIGHT_MM - TOP_MARGIN - BOTTOM_MARGIN_SHEET; // 265mm
+// Constantes de layout da folha A4
+const LEFT_RIGHT_MARGIN = 10;   // mm
+const TOP_MARGIN = 10;
+const BOTTOM_MARGIN = 22;       // espaço para rodapé
+const GAP_MM = 1.5;
+const PAGE_W = 210;
+const PAGE_H = 297;
+const USABLE_W = PAGE_W - (LEFT_RIGHT_MARGIN * 2); // 190mm
+const USABLE_H = PAGE_H - TOP_MARGIN - BOTTOM_MARGIN; // 265mm
 
-// Estados de loading
-let isRendering = false;
-
-// Mostrar/esconder campos de verso
+// helpers
 function toggleBackFields() {
   const isBoth = modeSelect.value === 'both';
   document.getElementById('backLabel').style.display = isBoth ? 'block' : 'none';
   backInput.style.display = isBoth ? 'block' : 'none';
 }
 
-// Mostrar/esconder cor de fundo baseado no fitMode
-function toggleBgColorField() {
-  const showBg = fitModeSelect.value === 'contain';
-  bgColorLabel.style.display = showBg ? 'block' : 'none';
-  bgColorInput.style.display = showBg ? 'block' : 'none';
+function toggleBgColor() {
+  const show = fitModeSelect.value === 'contain';
+  bgColorLabel.style.display = show ? 'block' : 'none';
+  bgColorInput.style.display = show ? 'block' : 'none';
 }
 
-// Carrega imagem a partir do input e retorna dataURL
-function loadImageFromInput(fileInput) {
+function loadImageFromFile(inputElem) {
   return new Promise((resolve, reject) => {
-    if (!fileInput.files || fileInput.files.length === 0) {
-      resolve(null);
-      return;
-    }
-    const file = fileInput.files[0];
-    if (!file.type.startsWith('image/')) {
-      reject('Arquivo não é uma imagem válida');
-      return;
-    }
+    if (!inputElem.files || !inputElem.files[0]) { resolve(null); return; }
+    const file = inputElem.files[0];
+    if (!file.type.startsWith('image/')) reject('Arquivo inválido');
     const reader = new FileReader();
-    reader.onload = (e) => resolve(e.target.result);
-    reader.onerror = () => reject('Erro ao ler arquivo');
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = () => reject('Erro leitura');
     reader.readAsDataURL(file);
   });
 }
 
-// Calcula layout da grade dinâmica
-function getGridDimensions(finalLabelSizeMM) {
-  const cols = Math.floor((USABLE_WIDTH_MM + GAP_MM) / (finalLabelSizeMM + GAP_MM));
-  const rows = Math.floor((USABLE_HEIGHT_MM + GAP_MM) / (finalLabelSizeMM + GAP_MM));
+// Calcula grade com base no tamanho final do círculo (com offset)
+function getGridDimensions(finalDiameterMM) {
+  const cols = Math.floor((USABLE_W + GAP_MM) / (finalDiameterMM + GAP_MM));
+  const rows = Math.floor((USABLE_H + GAP_MM) / (finalDiameterMM + GAP_MM));
   return { cols, rows };
 }
 
-// Aplica estilo de imagem dependendo do fitMode (cover/contain) com suporte a background
-function applyImageFitStyle(imgElement, fitMode, bgColorHex) {
-  if (fitMode === 'cover') {
-    imgElement.style.objectFit = 'cover';
-    imgElement.style.objectPosition = 'center';
-    imgElement.style.background = 'transparent';
-  } else { // contain
-    imgElement.style.objectFit = 'contain';
-    imgElement.style.objectPosition = 'center';
-    imgElement.style.background = bgColorHex || '#ffffff';
-  }
-}
-
-// Cria uma folha A4 com base na imagem, offset, se deve mostrar guia de corte e configuração de ajuste
-function buildPage(imageUrl, offsetMM, showGuide, fitModeValue, bgHex) {
+// Cria uma página A4 com sangria aplicada na imagem (bleed)
+// A sangria expande a imagem além do círculo, garantindo que não haja bordas brancas no corte.
+function buildPageWithBleed(imageUrl, offsetMM, showGuide, fitMode, bgHex, bleedMM) {
   if (!imageUrl) return null;
   
-  const baseSize = parseFloat(sizeSelect.value);
-  if (isNaN(baseSize)) return null;
+  const baseDiameter = parseFloat(sizeSelect.value);
+  if (isNaN(baseDiameter)) return null;
   const offset = parseFloat(offsetMM) || 0;
-  const finalLabelSize = Math.max(5, baseSize + (offset * 2)); // Evitar valores negativos absurdos
+  const finalDiameter = Math.max(5, baseDiameter + (offset * 2));
+  const bleed = parseFloat(bleedMM) || 0;
   
-  const { cols, rows } = getGridDimensions(finalLabelSize);
+  // O conteúdo da imagem deve ser escalado para preencher o círculo + bleed.
+  // O círculo tem tamanho finalDiameter. A imagem deve ocupar um quadrado de (finalDiameter + bleed*2) para transbordar.
+  // Dentro do label com overflow hidden, vamos aplicar uma escala.
+  const imageScaleFactor = (finalDiameter + bleed * 2) / finalDiameter;
+  
+  const { cols, rows } = getGridDimensions(finalDiameter);
   if (cols === 0 || rows === 0) {
-    console.warn('Grade vazia, tamanho muito grande');
+    statsSpan.innerHTML = '⚠️ Tamanho do círculo muito grande para a folha. Reduza o diâmetro.';
     return null;
   }
   
   const totalLabels = cols * rows;
-  // Atualizar info no painel
-  statsSpan.innerHTML = `📐 Círculo final: ${finalLabelSize.toFixed(1)}mm | Grade: ${cols}×${rows} = ${totalLabels} etiquetas/página | Margem: ${offset>0?'+'+offset:offset}mm`;
+  statsSpan.innerHTML = `📐 Círculo final: ${finalDiameter.toFixed(1)}mm | Sangria: ${bleed}mm | Grade: ${cols}×${rows} = ${totalLabels} etiquetas/pág.`;
   
   const page = document.createElement('div');
   page.className = 'a4';
   
   const sheet = document.createElement('div');
   sheet.className = 'sheet';
-  sheet.style.gridTemplateColumns = `repeat(${cols}, ${finalLabelSize}mm)`;
+  sheet.style.gridTemplateColumns = `repeat(${cols}, ${finalDiameter}mm)`;
   sheet.style.gap = `${GAP_MM}mm`;
   sheet.style.justifyContent = 'center';
   sheet.style.alignContent = 'center';
@@ -471,114 +435,97 @@ function buildPage(imageUrl, offsetMM, showGuide, fitModeValue, bgHex) {
   for (let i = 0; i < totalLabels; i++) {
     const labelDiv = document.createElement('div');
     labelDiv.className = 'label';
-    labelDiv.style.width = `${finalLabelSize}mm`;
-    labelDiv.style.height = `${finalLabelSize}mm`;
+    labelDiv.style.width = `${finalDiameter}mm`;
+    labelDiv.style.height = `${finalDiameter}mm`;
     labelDiv.style.position = 'relative';
     labelDiv.style.overflow = 'hidden';
     labelDiv.style.borderRadius = '50%';
+    labelDiv.style.backgroundColor = fitMode === 'contain' ? bgHex : '#f0f0f0';
     
     const img = document.createElement('img');
     img.src = imageUrl;
-    img.style.width = '100%';
-    img.style.height = '100%';
+    // Aplicar sangria: aumentar o tamanho da imagem em relação ao container
+    // Se bleed > 0, a imagem deve ser maior que o círculo para preencher as bordas.
+    const imgScale = imageScaleFactor;
+    const imgSizePercent = imgScale * 100;
     img.style.position = 'absolute';
-    img.style.top = '0';
-    img.style.left = '0';
-    // Aplica ajuste inteligente
-    applyImageFitStyle(img, fitModeValue, bgHex);
-    
+    img.style.top = '50%';
+    img.style.left = '50%';
+    img.style.transform = `translate(-50%, -50%) scale(${imgScale})`;
+    img.style.width = 'auto';
+    img.style.height = 'auto';
+    img.style.minWidth = '100%';
+    img.style.minHeight = '100%';
+    img.style.objectFit = fitMode === 'cover' ? 'cover' : 'contain';
+    if (fitMode === 'contain') {
+      img.style.background = bgHex;
+    }
     labelDiv.appendChild(img);
     
     if (showGuide) {
-      const guideDiv = document.createElement('div');
-      guideDiv.className = 'guide';
-      labelDiv.appendChild(guideDiv);
+      const guide = document.createElement('div');
+      guide.className = 'guide';
+      labelDiv.appendChild(guide);
     }
     sheet.appendChild(labelDiv);
   }
   
   const footer = document.createElement('div');
   footer.className = 'footer';
-  footer.innerHTML = `📌 Pibbaweb · Instagram | YouTube | Facebook | WhatsApp | PIX: 13988089754`;
-  
+  footer.innerHTML = `📌 Pibbaweb · Instagram | YouTube | Facebook | WhatsApp | PIX: 13988089754 | Sangria ${bleed}mm`;
   page.appendChild(sheet);
   page.appendChild(footer);
   return page;
 }
 
-// Renderização principal (limpa e constrói todas as páginas frente/verso)
+// Renderização completa (frente + verso) com bleed configurável
 async function renderFullLayout() {
-  if (isRendering) {
-    statsSpan.innerHTML = '⏳ Processando, aguarde...';
+  if (!frontImageData && frontInput.files.length === 0) {
+    statsSpan.innerHTML = '⚠️ Selecione uma imagem de FRENTE primeiro.';
     return;
   }
-  isRendering = true;
-  generateBtn.disabled = true;
-  generateBtn.innerHTML = '⏳ Gerando layout...';
   
-  try {
-    // Carregar imagens atuais
-    if (frontInput.files.length > 0) {
-      frontImageData = await loadImageFromInput(frontInput);
-    } else if (!frontImageData && frontInput.files.length === 0) {
-      // Se não houver imagem, mostra aviso mas mantém anterior? Tentar usar demo warning
-      if (!frontImageData) {
-        statsSpan.innerHTML = '⚠️ Selecione uma imagem para FRENTE primeiro!';
-        generateBtn.disabled = false;
-        generateBtn.innerHTML = '✨ Gerar Layout Agora';
-        isRendering = false;
-        return;
-      }
-    }
-    
-    if (modeSelect.value === 'both' && backInput.files.length > 0) {
-      backImageData = await loadImageFromInput(backInput);
-    } else if (modeSelect.value === 'both' && !backImageData && backInput.files.length === 0) {
-      // verso não obrigatório, apenas se não tiver dados e nenhum arquivo, pode manter null
-      if (!backImageData) backImageData = null;
-    }
-    
-    if (!frontImageData) {
-      statsSpan.innerHTML = '❌ Nenhuma imagem de frente carregada. Selecione uma imagem.';
-      generateBtn.disabled = false;
-      generateBtn.innerHTML = '✨ Gerar Layout Agora';
-      isRendering = false;
-      return;
-    }
-    
-    const offsetFront = parseFloat(offsetFrontInput.value) || 0;
-    const offsetBack = parseFloat(offsetBackInput.value) || 0;
-    const fitMode = fitModeSelect.value;
-    const bgHex = bgColorInput.value;
-    
-    // Limpar preview
-    previewDiv.innerHTML = '';
-    
-    // Página(s) frente
-    const frontPage = buildPage(frontImageData, offsetFront, true, fitMode, bgHex);
-    if (frontPage) previewDiv.appendChild(frontPage);
-    else throw new Error('Falha ao gerar página da frente');
-    
-    // Se tiver modo ambos e imagem verso, gerar página verso
-    if (modeSelect.value === 'both' && backImageData) {
-      const backPage = buildPage(backImageData, offsetBack, false, fitMode, bgHex);
-      if (backPage) previewDiv.appendChild(backPage);
-    } else if (modeSelect.value === 'both' && !backImageData) {
-      statsSpan.innerHTML += ' | ℹ️ Nenhuma imagem de verso selecionada. Apenas frente será exibida.';
-    }
-    
-    statsSpan.innerHTML = `✅ Layout atualizado! ${previewDiv.children.length} folha(s) A4 gerada(s).`;
-  } catch (err) {
-    console.error(err);
-    statsSpan.innerHTML = `❌ Erro: ${err.message || 'Falha ao processar imagem'}`;
-  } finally {
-    generateBtn.disabled = false;
-    generateBtn.innerHTML = '✨ Gerar Layout Agora';
-    isRendering = false;
+  // Carregar imagens atualizadas se houver novos arquivos
+  if (frontInput.files.length > 0) {
+    frontImageData = await loadImageFromFile(frontInput);
+  }
+  if (modeSelect.value === 'both' && backInput.files.length > 0) {
+    backImageData = await loadImageFromFile(backInput);
+  }
+  
+  if (!frontImageData) {
+    statsSpan.innerHTML = '❌ Nenhuma imagem de frente carregada.';
+    return;
+  }
+  
+  const bleedVal = bleedInput.value;
+  const fitMode = fitModeSelect.value;
+  const bgHex = bgColorInput.value;
+  const offsetFrontVal = offsetFront.value;
+  const offsetBackVal = offsetBack.value;
+  
+  previewDiv.innerHTML = '';
+  
+  // Página frente
+  const frontPage = buildPageWithBleed(frontImageData, offsetFrontVal, true, fitMode, bgHex, bleedVal);
+  if (frontPage) previewDiv.appendChild(frontPage);
+  
+  // Página verso (se houver)
+  if (modeSelect.value === 'both' && backImageData) {
+    const backPage = buildPageWithBleed(backImageData, offsetBackVal, false, fitMode, bgHex, bleedVal);
+    if (backPage) previewDiv.appendChild(backPage);
+  } else if (modeSelect.value === 'both' && !backImageData) {
+    statsSpan.innerHTML += ' | ℹ️ Verso não selecionado, apenas frente.';
+  }
+  
+  if (previewDiv.children.length === 0) {
+    statsSpan.innerHTML = '❌ Erro: não foi possível gerar as páginas. Verifique tamanhos.';
+  } else {
+    statsSpan.innerHTML = `✅ ${previewDiv.children.length} folha(s) A4 gerada(s) com sangria de ${bleedVal}mm.`;
   }
 }
 
-// Função de exportação PDF robusta com html2canvas e jsPDF
+// Exportar PDF com qualidade máxima, capturando exatamente o que está na tela (incluindo sangria e guias)
 async function exportToPDF() {
   const pages = document.querySelectorAll('.a4');
   if (pages.length === 0) {
@@ -588,103 +535,90 @@ async function exportToPDF() {
   
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF('p', 'mm', 'a4');
-  let currentPage = 0;
+  let isFirst = true;
   
-  // Mostrar loading
-  const originalBtnText = exportBtn.innerHTML;
-  exportBtn.innerHTML = '⏳ Gerando PDF, aguarde...';
+  exportBtn.innerHTML = '<span class="loading"></span> Exportando PDF...';
   exportBtn.disabled = true;
   
   try {
     for (let idx = 0; idx < pages.length; idx++) {
       const pageElement = pages[idx];
-      // Forçar estilos de impressão limpos
+      // Garantir que a folha não tenha transformações CSS que atrapalhem
       pageElement.style.transform = 'none';
-      // html2canvas com alta qualidade e resolução
+      
       const canvas = await html2canvas(pageElement, {
-        scale: 3,
+        scale: 3.5,          // alta resolução para impressão
         backgroundColor: '#ffffff',
         logging: false,
         useCORS: true,
-        allowTaint: false
+        allowTaint: false,
+        windowWidth: pageElement.scrollWidth,
+        windowHeight: pageElement.scrollHeight
       });
       
       const imgData = canvas.toDataURL('image/png');
-      if (idx !== 0) pdf.addPage();
+      if (!isFirst) pdf.addPage();
       pdf.addImage(imgData, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
+      isFirst = false;
     }
-    pdf.save(`Pibbaweb_Etiquetas_${new Date().toISOString().slice(0,19)}.pdf`);
-    statsSpan.innerHTML = `📁 PDF exportado com sucesso! ${pages.length} página(s).`;
+    pdf.save(`Pibbaweb_Etiquetas_Sangria_${bleedInput.value}mm_${new Date().toISOString().slice(0,19)}.pdf`);
+    statsSpan.innerHTML = `📁 PDF exportado com sucesso! ${pages.length} página(s) - sangria aplicada.`;
   } catch (err) {
     console.error(err);
-    alert('Erro ao gerar PDF: ' + err.message);
-    statsSpan.innerHTML = `❌ Falha na exportação: ${err.message}`;
+    alert('Falha ao gerar PDF: ' + err.message);
+    statsSpan.innerHTML = '❌ Erro na exportação. Tente novamente.';
   } finally {
-    exportBtn.innerHTML = originalBtnText;
+    exportBtn.innerHTML = '📄 Exportar PDF → Fiel à tela';
     exportBtn.disabled = false;
   }
 }
 
-// Eventos automáticos: ao alterar qualquer controle, re-renderiza (com debounce para evitar loops)
-let debounceTimer;
+// Auto renderização com debounce
+let debounce;
 function autoRender() {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
+  clearTimeout(debounce);
+  debounce = setTimeout(() => {
     if (frontImageData || frontInput.files.length > 0) {
       renderFullLayout();
     } else {
-      // se não houver imagem, apenas mostra instrução
-      statsSpan.innerHTML = '📸 Selecione uma imagem de frente para visualizar as etiquetas.';
+      statsSpan.innerHTML = '📸 Carregue uma imagem de frente para visualizar as etiquetas com sangria.';
     }
-  }, 300);
+  }, 280);
 }
 
-// Listeners para mudanças que disparam re-renderização automática
+// Eventos que disparam nova renderização
 sizeSelect.addEventListener('change', autoRender);
 modeSelect.addEventListener('change', () => { toggleBackFields(); autoRender(); });
-offsetFrontInput.addEventListener('input', autoRender);
-offsetBackInput.addEventListener('input', autoRender);
-fitModeSelect.addEventListener('change', () => { toggleBgColorField(); autoRender(); });
+offsetFront.addEventListener('input', autoRender);
+offsetBack.addEventListener('input', autoRender);
+bleedInput.addEventListener('input', autoRender);
+fitModeSelect.addEventListener('change', () => { toggleBgColor(); autoRender(); });
 bgColorInput.addEventListener('input', autoRender);
 frontInput.addEventListener('change', async () => {
-  if (frontInput.files.length) {
-    frontImageData = await loadImageFromInput(frontInput);
-  }
+  if (frontInput.files.length) frontImageData = await loadImageFromFile(frontInput);
   autoRender();
 });
 backInput.addEventListener('change', async () => {
-  if (backInput.files.length) {
-    backImageData = await loadImageFromInput(backInput);
-  }
+  if (backInput.files.length) backImageData = await loadImageFromFile(backInput);
   autoRender();
 });
 
-generateBtn.addEventListener('click', () => {
-  // Forçar recarregar imagens novamente
-  if (frontInput.files.length) {
-    loadImageFromInput(frontInput).then(data => { frontImageData = data; renderFullLayout(); });
-  } else {
-    renderFullLayout();
-  }
+generateBtn.addEventListener('click', async () => {
+  if (frontInput.files.length) frontImageData = await loadImageFromFile(frontInput);
+  if (modeSelect.value === 'both' && backInput.files.length) backImageData = await loadImageFromFile(backInput);
+  renderFullLayout();
 });
+
 exportBtn.addEventListener('click', exportToPDF);
 
 // Inicialização
 toggleBackFields();
-toggleBgColorField();
+toggleBgColor();
 modeSelect.dispatchEvent(new Event('change'));
 fitModeSelect.dispatchEvent(new Event('change'));
-statsSpan.innerHTML = '⚡ Carregue uma imagem e ajuste as configurações.';
 
-// Pré-carregar caso o usuário já tenha selecionado arquivo antes (suporte)
-window.addEventListener('load', () => {
-  if (frontInput.files.length) {
-    loadImageFromInput(frontInput).then(data => { frontImageData = data; renderFullLayout(); });
-  } else {
-    // mensagem amigável
-    previewDiv.innerHTML = '<div style="background:#eef2ff; padding:40px; border-radius:24px; text-align:center; width:100%;">✨ Selecione uma imagem de frente e escolha o tamanho do círculo.<br>As etiquetas circulares aparecerão aqui perfeitamente ajustadas.</div>';
-  }
-});
+// Placeholder amigável
+previewDiv.innerHTML = '<div style="background:#eef2ff; padding:40px; border-radius:24px; text-align:center; width:100%;"><strong>🖼️ Pibbaweb Profissional</strong><br>Selecione uma imagem e defina o diâmetro.<br>A sangria de 2mm será aplicada automaticamente na arte para evitar bordas brancas no corte.<br>O PDF será salvo exatamente como visto na tela.</div>';
 </script>
 </body>
 </html>
